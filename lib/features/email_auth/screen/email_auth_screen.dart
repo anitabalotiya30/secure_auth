@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:secure_auth/helper/extensions.dart';
+import 'package:secure_auth/services/router/router_name.dart';
 
 import '../../../helper/global.dart';
+import '../../../services/router/router_x.dart';
+import '../../../widgets/custom_list_tile.dart';
 import '../../../widgets/custom_text_btn.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../cubit/email_auth_cubit.dart';
@@ -61,11 +65,26 @@ class EmailAuthScreen extends StatelessWidget {
           ElevatedButton(onPressed: () {}, child: const Text('Continue')),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+
+            //
             children: [
               const Text('Already have an account?'),
-              CustomTextBtn(onTap: () {}, child: const Text('Sign In'))
+              CustomTextBtn(
+                onTap: () => context.goNamed(RouteName.authSignin.name),
+                child: const Text('Sign In'),
+              )
             ],
-          )
+          ),
+
+          //
+          SizedBox(height: mq.height * .03),
+
+          //
+          CustomListTile(
+            onTap: RouterX.router.pop,
+            text: 'Continue With Phone',
+            imgPath: 'ic_phone.webp',
+          ),
 
           //
         ].animateListFast,

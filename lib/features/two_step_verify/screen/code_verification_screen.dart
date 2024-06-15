@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:secure_auth/helper/extensions.dart';
 
 import '../../../helper/global.dart';
 import '../../../widgets/custom_text_btn.dart';
 import '../../../widgets/custom_text_field.dart';
-import '../cubit/phone_auth_cubit.dart';
+import '../cubit/two_step_verify_cubit.dart';
+import '../cubit/two_step_verify_state.dart';
 
-class OTPScreen extends StatelessWidget {
-  const OTPScreen({super.key});
+class CodeVerificationScreen extends StatelessWidget {
+  const CodeVerificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final c = context.read<PhoneAuthCubit>();
+    final c = context.read<TwoStepVerifyCubit>();
 
     //
     return Scaffold(
       //
       appBar: AppBar(
         leading: const BackButton(),
-        title: const Text('OTP Verification'),
+        title: const Text('Verification'),
       ),
 
       //
@@ -31,7 +33,7 @@ class OTPScreen extends StatelessWidget {
         children: [
           // otp field
           CustomTextField(
-            c: c.otpC,
+            c: c.etOtp,
             hintText: '- - - - - -',
             keyboardType: TextInputType.number,
             style: const TextStyle(letterSpacing: 3),
@@ -46,7 +48,7 @@ class OTPScreen extends StatelessWidget {
           SizedBox(height: mq.height * .06),
 
           //
-          BlocSelector<PhoneAuthCubit, PhoneAuthState, int>(
+          BlocSelector<TwoStepVerifyCubit, TwoStepVerifyState, int>(
             selector: (state) => state.secondsRemaining,
 
             //
@@ -58,7 +60,7 @@ class OTPScreen extends StatelessWidget {
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
-                        text: 'Resend OTP in ',
+                        text: 'Resend Verification Code in ',
                         style: const TextStyle(color: Colors.black),
 
                         //
@@ -79,8 +81,8 @@ class OTPScreen extends StatelessWidget {
           ),
 
           //
-          ElevatedButton(onPressed: () {}, child: const Text('Submit'))
-        ],
+          ElevatedButton(onPressed: () {}, child: const Text('Verify'))
+        ].animateListFast,
       ),
     );
   }

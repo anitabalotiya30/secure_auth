@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:secure_auth/helper/extensions.dart';
-import 'package:secure_auth/widgets/custom_text_field.dart';
 
 import '../../../helper/global.dart';
 import '../../../services/router/router_name.dart';
 import '../../../services/router/router_x.dart';
+import '../../../widgets/country_code.dart';
+import '../../../widgets/custom_list_tile.dart';
 import '../../../widgets/custom_text_btn.dart';
+import '../../../widgets/custom_text_field.dart';
 import '../../../widgets/logo.dart';
 import '../cubit/phone_auth_cubit.dart';
 
@@ -20,12 +22,14 @@ class PhoneAuthScreen extends StatelessWidget {
 
     //
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text('You\'re Just One Step Away'),
       ),
 
       //
-      body: Padding(
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(
             horizontal: mq.width * .04, vertical: mq.height * .02),
 
@@ -36,7 +40,7 @@ class PhoneAuthScreen extends StatelessWidget {
           //
           children: [
             //logo
-            Logo(height: mq.height * .17),
+            Logo(height: mq.height * .16),
 
             //
             SizedBox(height: mq.height * .05),
@@ -46,13 +50,20 @@ class PhoneAuthScreen extends StatelessWidget {
               thickness: 1.5,
             ),
 
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
-              child: Text(
-                'Enter your Mobile Number to continue',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  color: Colors.black87,
+              child: InkWell(
+                //
+                onTap: () =>
+                    RouterX.router.goNamed(RouteName.twoStepVerify.name),
+
+                //
+                child: const Text(
+                  'Enter your Mobile Number to continue',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    color: Colors.black87,
+                  ),
                 ),
               ),
             ),
@@ -66,26 +77,7 @@ class PhoneAuthScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //
-                Container(
-                    height: 50,
-                    width: mq.width * .2,
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                      color: sColor,
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(flag),
-
-                        //
-                        SizedBox(width: 5),
-
-                        //
-                        Text('+91'),
-                      ],
-                    )),
+                const CountryCode(),
 
                 //
                 Expanded(
@@ -107,71 +99,29 @@ class PhoneAuthScreen extends StatelessWidget {
             SizedBox(height: mq.height * .04),
 
             //
-            ElevatedButton(onPressed: () {}, child: const Text('Get OTP')),
+            ElevatedButton(
+                onPressed: () {
+                  RouterX.router.goNamed(RouteName.authOtp.name);
+                },
+                child: const Text('Get OTP')),
 
             //
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Text('Already have an account?  ',
                   textAlign: TextAlign.center),
               CustomTextBtn(
-                onTap: () {
-                  // to handle already browsing user
-                  // final path = RouterX.getProductPath();
-                  // path == null
-                  //     ? RouterX.router.goNamed(RouteName.tab.name)
-                  //     : RouterX.router.go(path);
-                },
+                onTap: () => RouterX.router.goNamed(RouteName.authSignin.name),
                 child: const Text('Sign In'),
               ),
             ]),
 
-            SizedBox(height: mq.height * .02),
+            SizedBox(height: mq.height * .04),
 
             //
-            Row(
-              children: [
-                const Expanded(child: Divider()),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: mq.width * .02),
-                  child: const Text(
-                    'OR',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
-                  ),
-                ),
-                const Expanded(child: Divider())
-              ],
-            ),
-            SizedBox(height: mq.height * .02),
-
-            //
-            CustomTextBtn(
-              fgColor: Colors.black87,
-              bgColor: sColor,
-              onTap: () {
-                RouterX.router.goNamed(RouteName.authEmail.name);
-                // to handle already browsing user
-                // final path = RouterX.getProductPath();
-                // path == null
-                //     ? RouterX.router.goNamed(RouteName.tab.name)
-                //     : RouterX.router.go(path);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-
-                //
-                children: [
-                  Image.asset('$iconPath/ic_email.webp',
-                      height: mq.height * .035),
-                  SizedBox(width: mq.width * .02),
-
-                  //
-                  const Text(
-                    'Continue With Email',
-                    style:
-                        TextStyle(fontWeight: FontWeight.w500, fontSize: 15.5),
-                  ),
-                ],
-              ),
+            CustomListTile(
+              onTap: () => RouterX.router.goNamed(RouteName.authEmail.name),
+              text: 'Continue With Email',
+              imgPath: 'ic_email.webp',
             ),
           ].animateList,
         ),
