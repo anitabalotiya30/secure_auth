@@ -42,7 +42,9 @@ class TwoStepVerifyScreen extends StatelessWidget {
 
             //
             SizedBox(height: mq.height * .02),
-            CustomTextBtn(onTap: () {}, child: const Text('Skip'))
+            CustomTextBtn(
+                onTap: () => RouterX.router.goNamed(RouteName.home.name),
+                child: const Text('Skip'))
           ].animateListFast,
         ),
       ),

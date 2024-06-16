@@ -2,6 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:secure_auth/services/router/router_name.dart';
+
+import '../../../services/dialog/dialog_x.dart';
+import '../../../services/router/router_x.dart';
+import '../data/phone_auth_repository.dart';
 
 part 'phone_auth_state.dart';
 
@@ -30,5 +35,23 @@ class PhoneAuthCubit extends Cubit<PhoneAuthState> {
         emit(state.copyWith(secondsRemaining: state.secondsRemaining - 1));
       }
     });
+  }
+
+  Future<void> getOtp() async {
+    if (phoneC.text.trim().length == 10) {
+      await PhoneAuthRepository.verifyPhoneNo(mobileNo: phoneC.text);
+    } else {
+      DialogX.error(msg: 'Incorrect phone number.');
+    }
+  }
+
+  Future<void> verifyOtp() async {
+    if (otpC.text.trim().length == 6) {
+      final verify =
+          await PhoneAuthRepository.signInWithCredential(otp: otpC.text);
+      if (verify) RouterX.router.goNamed(RouteName.twoStepVerify.name);
+    } else {
+      DialogX.error(msg: 'Incorrect phone number.');
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:secure_auth/features/phone_auth/data/phone_auth_repository.dart';
 import 'package:secure_auth/helper/extensions.dart';
 
 import '../../../helper/global.dart';
@@ -89,7 +90,7 @@ class PhoneAuthScreen extends StatelessWidget {
                       FilteringTextInputFormatter.digitsOnly,
                       LengthLimitingTextInputFormatter(10),
                     ],
-                    // onSubmitted: (v) => c.getOTP(),
+                    onSubmitted: (v) => c.getOtp(),
                   ),
                 ),
               ],
@@ -99,11 +100,7 @@ class PhoneAuthScreen extends StatelessWidget {
             SizedBox(height: mq.height * .04),
 
             //
-            ElevatedButton(
-                onPressed: () {
-                  RouterX.router.goNamed(RouteName.authOtp.name);
-                },
-                child: const Text('Get OTP')),
+            ElevatedButton(onPressed: c.getOtp, child: const Text('Get OTP')),
 
             //
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [

@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => PhoneAuthCubit()),
         BlocProvider(create: (_) => EmailAuthCubit()),
-        BlocProvider(create: (_) => TwoStepVerifyCubit()),
+        BlocProvider(create: (_) => TwoStepVerifyCubit())
         // BlocProvider(create: (_) => OrderCubit()),
       ],
 

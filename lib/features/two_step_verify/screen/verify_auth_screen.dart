@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:secure_auth/helper/extensions.dart';
+import 'package:secure_auth/services/pref.dart';
 import 'package:secure_auth/services/router/router_name.dart';
 import 'package:secure_auth/services/router/router_x.dart';
 
@@ -30,8 +31,9 @@ class VerifyAuthScreen extends StatelessWidget {
         child: Column(
           //
           children: [
-            const Text(
-                'Would you like to continue using this number to receive the verification code, or use a different one?'),
+            Text(Pref.phoneSignin
+                ? 'Verify your account with two-step verification. Enter your phone number to receive a code.'
+                : 'Would you like to continue using this number to receive the verification code, or use a different one?'),
 
             //
             SizedBox(height: mq.height * .04),

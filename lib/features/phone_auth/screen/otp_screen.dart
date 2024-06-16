@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:secure_auth/features/phone_auth/data/phone_auth_repository.dart';
+import 'package:secure_auth/services/router/router_name.dart';
 
 import '../../../helper/global.dart';
+import '../../../services/router/router_x.dart';
 import '../../../widgets/custom_text_btn.dart';
 import '../../../widgets/custom_text_field.dart';
 import '../cubit/phone_auth_cubit.dart';
@@ -40,6 +43,7 @@ class OTPScreen extends StatelessWidget {
               FilteringTextInputFormatter.digitsOnly,
               LengthLimitingTextInputFormatter(6),
             ],
+            onSubmitted: (v) => c.verifyOtp(),
           ),
 
           // for giving some space
@@ -50,7 +54,7 @@ class OTPScreen extends StatelessWidget {
             selector: (state) => state.secondsRemaining,
 
             //
-            builder: (context, state) => state > 0
+            builder: (context, state) => state < 0
                 ? Padding(
                     padding: const EdgeInsets.only(bottom: 12),
 
@@ -75,11 +79,14 @@ class OTPScreen extends StatelessWidget {
                       ),
                     ),
                   )
-                : CustomTextBtn(onTap: () {}, child: const Text('Resend?')),
+                : CustomTextBtn(
+                    onTap: () => PhoneAuthRepository.verifyPhoneNo(
+                        mobileNo: c.phoneC.text),
+                    child: const Text('Resend?')),
           ),
 
           //
-          ElevatedButton(onPressed: () {}, child: const Text('Submit'))
+          ElevatedButton(onPressed: c.verifyOtp, child: const Text('Submit'))
         ],
       ),
     );

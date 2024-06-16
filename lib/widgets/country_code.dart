@@ -18,7 +18,7 @@ class CountryCode extends StatelessWidget {
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(flag),
+          Text('🇮🇳'),
 
           //
           SizedBox(width: 5),

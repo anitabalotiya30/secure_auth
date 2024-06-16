@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/email_auth/screen/email_auth_screen.dart';
 import '../../features/email_auth/screen/password_recovery.dart';
 import '../../features/email_auth/screen/sign_in_screen.dart';
+import '../../features/home/screen/home_screen.dart';
 import '../../features/phone_auth/screen/otp_screen.dart';
 import '../../features/phone_auth/screen/phone_auth_screen.dart';
 import '../../features/splash/splash_screen.dart';
@@ -84,17 +85,10 @@ class RouterX {
         ]),
 
     //
-    // GoRoute(
-    //     name: RouteName.authEmail.name,
-    //     path: '/email',
-    //     builder: (context, state) => const PhoneAuthScreen(),
-    //     routes: [
-    //       //otp
-    //       GoRoute(
-    //         name: RouteName.authOtp.name,
-    //         path: 'forgot-password',
-    //         builder: (context, state) => const OTPScreen(),
-    //       ),
-    //     ]),
+    GoRoute(
+      name: RouteName.home.name,
+      path: '/home',
+      builder: (context, state) => const HomeScreen(),
+    ),
   ]);
 }
